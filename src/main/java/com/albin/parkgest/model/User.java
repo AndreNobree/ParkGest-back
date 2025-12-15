@@ -1,6 +1,6 @@
 package com.albin.parkgest.model;
 
-import jakarta.persistence.*; // @entity, @table, @id ....
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
