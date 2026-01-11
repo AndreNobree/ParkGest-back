@@ -17,7 +17,7 @@ public class VagasController {
     @Autowired
     private VagasService vagasService;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<VagasResponseDTO> novaVaga(@Valid @RequestBody VagasRegisterDTO dto){
         VagasResponseDTO criaVaga = vagasService.cadastraVaga(dto);
 
