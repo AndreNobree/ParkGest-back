@@ -1,12 +1,24 @@
 package com.albin.parkgest.controller;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.albin.parkgest.dto.patio.PatioResponseDTO;
+import com.albin.parkgest.service.PatioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/patio")
 @CrossOrigin(origins = "http://localhost:3000")
 public class PatioController {
+    @Autowired
+    private PatioService patioService;
+
+    @GetMapping("/")
+    public ResponseEntity<List<PatioResponseDTO>> patio(){
+        List<PatioResponseDTO> patio = patioService.vagasOcupadas();
+        return ResponseEntity.ok(patio);
+    }
 }

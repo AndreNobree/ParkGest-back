@@ -1,6 +1,5 @@
 package com.albin.parkgest.service;
 
-import com.albin.parkgest.dto.patio.PatioRegisterDTO;
 import com.albin.parkgest.dto.patio.PatioResponseDTO;
 import com.albin.parkgest.model.Patio;
 import com.albin.parkgest.model.User;
@@ -29,7 +28,7 @@ public class PatioService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        List<Patio> patio = patioRepository.findByAcao("ocupada");
+        List<Patio> patio = patioRepository.findByAcao("estacionado");
 
         return patio.stream()
                 .map(p -> new PatioResponseDTO(
