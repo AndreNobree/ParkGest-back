@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class VagasService {
@@ -22,6 +23,7 @@ public class VagasService {
     @Autowired
     private UserRepository userRepository;
 
+    //tela de vagas (popup cadastro)
     public VagasResponseDTO cadastraVaga(VagasRegisterDTO dto){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
@@ -42,6 +44,24 @@ public class VagasService {
 
         Vagas salvaVaga = vagasRepository.save(vagas);
 
-        return new VagasResponseDTO(salvaVaga.getVaga(), salvaVaga.getTipo());
+        return new VagasResponseDTO(salvaVaga.getId(), salvaVaga.getTipo());
     }
+    //retorno de vagas na tela de controle
+    public List<VagasResponseDTO> vagasRestantes(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        List<Vagas> controle = vagasRepository.findAll();
+
+        return controle.stream()
+                .map(c -> new VagasResponseDTO(
+                        c.getId(),
+                        c.getVaga()
+                ))
+                .toList();
+    }
+
 }
