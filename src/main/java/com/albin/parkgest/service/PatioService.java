@@ -4,8 +4,10 @@ import com.albin.parkgest.dto.patio.PatioRegisterDTO;
 import com.albin.parkgest.dto.patio.PatioResponseDTO;
 import com.albin.parkgest.model.Patio;
 import com.albin.parkgest.model.User;
+import com.albin.parkgest.model.Vagas;
 import com.albin.parkgest.repository.PatioRepository;
 import com.albin.parkgest.repository.UserRepository;
+import com.albin.parkgest.repository.VagasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,9 @@ public class PatioService {
 
     @Autowired
     private PatioRepository patioRepository;
+
+    @Autowired
+    private VagasRepository vagasRepository;
 
     //vagas - home
     public List<PatioResponseDTO> vagasOcupadas(){
@@ -54,8 +59,11 @@ public class PatioService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
+        Vagas vaga = vagasRepository.findById(dto.getVagaId())
+                .orElseThrow(() -> new RuntimeException("Vaga não encontrada"));
+
         Patio patio = new Patio();
-        patio.setVaga(patio.getVaga());
+        patio.setVaga(vaga);
         patio.setModeloCor(dto.getModeloCor());
         patio.setPlaca(dto.getPlaca());
         patio.setTipo(dto.getTipo());

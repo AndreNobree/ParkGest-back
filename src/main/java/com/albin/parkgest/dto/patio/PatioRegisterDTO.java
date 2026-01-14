@@ -1,6 +1,7 @@
 package com.albin.parkgest.dto.patio;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class PatioRegisterDTO {
-    @NotBlank
+    @NotNull
     private Long vagaId;
 
     private String modeloCor;
