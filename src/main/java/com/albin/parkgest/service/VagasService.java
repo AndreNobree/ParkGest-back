@@ -2,7 +2,6 @@ package com.albin.parkgest.service;
 
 import com.albin.parkgest.dto.vagas.VagasRegisterDTO;
 import com.albin.parkgest.dto.vagas.VagasResponseDTO;
-import com.albin.parkgest.model.Patio;
 import com.albin.parkgest.model.User;
 import com.albin.parkgest.model.Vagas;
 import com.albin.parkgest.repository.PatioRepository;
@@ -50,7 +49,7 @@ public class VagasService {
 
         Vagas salvaVaga = vagasRepository.save(vagas);
 
-        return new VagasResponseDTO(salvaVaga.getId(), salvaVaga.getTipo());
+        return new VagasResponseDTO(salvaVaga.getId(), salvaVaga.getTipo(), salvaVaga.getTipo());
     }
 
     //retorno de vagas na tela de controle
@@ -67,7 +66,26 @@ public class VagasService {
         return vagasLivres.stream()
                 .map(p -> new VagasResponseDTO(
                         p.getId(),
-                        p.getVaga()
+                        p.getVaga(),
+                        p.getTipo()
+                ))
+                .toList();
+    }
+
+    public List<VagasResponseDTO> vagas(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        List<Vagas> vagasList = vagasRepository.findAll();
+
+        return vagasList.stream()
+                .map(p -> new VagasResponseDTO(
+                        p.getId(),
+                        p.getVaga(),
+                        p.getTipo()
                 ))
                 .toList();
     }

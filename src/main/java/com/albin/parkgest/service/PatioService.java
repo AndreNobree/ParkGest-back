@@ -1,6 +1,5 @@
 package com.albin.parkgest.service;
 
-import com.albin.parkgest.dto.patio.PatioDeleteDTO;
 import com.albin.parkgest.dto.patio.PatioRegisterDTO;
 import com.albin.parkgest.dto.patio.PatioResponseDTO;
 import com.albin.parkgest.model.Patio;

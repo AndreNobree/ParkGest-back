@@ -26,10 +26,16 @@ public class VagasController {
         return ResponseEntity.status(HttpStatus.CREATED).body(criaVaga);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/livres")
     public ResponseEntity<List<VagasResponseDTO>> controle(){
         List<VagasResponseDTO> controle = vagasService.vagasRestantes();
         return ResponseEntity.ok(controle);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<VagasResponseDTO>> vagas(){
+        List<VagasResponseDTO> vagas = vagasService.vagas();
+        return ResponseEntity.ok(vagas);
     }
 
 
