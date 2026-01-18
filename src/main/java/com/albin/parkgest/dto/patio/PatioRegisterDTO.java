@@ -26,5 +26,4 @@ public class PatioRegisterDTO {
 
     private Long valoresHoraId;
 
-    private String acao;
 }

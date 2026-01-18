@@ -39,8 +39,6 @@ public class Patio {
     @JoinColumn(name = "valores_hora_id")
     private ValorHora valorHora;
 
-    private String acao;
-
     @Column(name = "created_by")
     private Long createdBy;
 

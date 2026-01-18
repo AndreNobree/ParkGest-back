@@ -35,7 +35,7 @@ public class PatioService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        List<Patio> patio = patioRepository.findByAcao("estacionado");
+        List<Patio> patio = patioRepository.findAll();
 
         return patio.stream()
                 .map(p -> new PatioResponseDTO(
@@ -44,7 +44,6 @@ public class PatioService {
                         p.getPlaca(),
                         p.getTipo(),
                         p.getHoraEntrada(),
-                        p.getAcao(),
                         p.getVaga().getVaga()
                 ))
                 .toList();
@@ -70,11 +69,11 @@ public class PatioService {
         //patio.setCliente();
         patio.setHoraEntrada(LocalDateTime.now());
         //patio.setValorHora();
-        patio.setAcao(dto.getAcao());
 
         Patio salvaPatio = patioRepository.save(patio);
 
-        return new PatioResponseDTO(salvaPatio.getId(), salvaPatio.getModeloCor(), salvaPatio.getPlaca(), salvaPatio.getTipo(), salvaPatio.getHoraEntrada(), salvaPatio.getAcao(), salvaPatio.getVaga().getVaga() );
+
+        return new PatioResponseDTO(salvaPatio.getId(), salvaPatio.getModeloCor(), salvaPatio.getPlaca(), salvaPatio.getTipo(), salvaPatio.getHoraEntrada(), salvaPatio.getVaga().getVaga() );
     }
 
 }

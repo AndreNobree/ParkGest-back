@@ -23,21 +23,18 @@ public class PatioResponseDTO {
 
     private Long valoresHoraId;
 
-    private String acao;
-
     private String nomeVaga;
 
 
     //home
     public PatioResponseDTO(Long patioId, String modeloCor, String placa, String tipo,
-                            LocalDateTime horaEntrada, String acao, String nomeVaga) {
+                            LocalDateTime horaEntrada, String nomeVaga) {
 
         this.patioId = patioId;
         this.modeloCor = modeloCor;
         this.placa = placa;
         this.tipo = tipo;
         this.horaEntrada = horaEntrada;
-        this.acao = acao;
         this.nomeVaga = nomeVaga;
     }
 }

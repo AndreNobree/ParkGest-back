@@ -21,6 +21,8 @@ public class Vagas {
     @Column(nullable = false)
     private String tipo;
 
+    private String acao;
+
     @Column(name = "created_by")
     private Long createdBy;
 

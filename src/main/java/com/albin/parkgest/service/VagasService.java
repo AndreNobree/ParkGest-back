@@ -2,8 +2,10 @@ package com.albin.parkgest.service;
 
 import com.albin.parkgest.dto.vagas.VagasRegisterDTO;
 import com.albin.parkgest.dto.vagas.VagasResponseDTO;
+import com.albin.parkgest.model.Patio;
 import com.albin.parkgest.model.User;
 import com.albin.parkgest.model.Vagas;
+import com.albin.parkgest.repository.PatioRepository;
 import com.albin.parkgest.repository.UserRepository;
 import com.albin.parkgest.repository.VagasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class VagasService {
 
     @Autowired
     private VagasRepository vagasRepository;
+
+    @Autowired
+    private PatioRepository patioRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -38,6 +43,7 @@ public class VagasService {
         Vagas vagas = new Vagas();
         vagas.setVaga(dto.getVaga());
         vagas.setTipo(dto.getTipo());
+        vagas.setAcao("livre");
         vagas.setCreatedAt(LocalDateTime.now());
         vagas.setUpdatedAt(LocalDateTime.now());
         vagas.setCreatedBy(user.getId());
@@ -46,22 +52,23 @@ public class VagasService {
 
         return new VagasResponseDTO(salvaVaga.getId(), salvaVaga.getTipo());
     }
+
     //retorno de vagas na tela de controle
-    public List<VagasResponseDTO> vagasRestantes(){
+    public List<VagasResponseDTO> vagasRestantes() {
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        List<Vagas> controle = vagasRepository.findAll();
+        List<Vagas> vagasLivres = vagasRepository.findByAcao("livre");
 
-        return controle.stream()
-                .map(c -> new VagasResponseDTO(
-                        c.getId(),
-                        c.getVaga()
+        return vagasLivres.stream()
+                .map(p -> new VagasResponseDTO(
+                        p.getId(),
+                        p.getVaga()
                 ))
                 .toList();
     }
-
 }
