@@ -45,7 +45,7 @@ public class VagasService {
         vagas.setTipo(dto.getTipo());
         vagas.setAcao("livre");
         vagas.setCreatedAt(LocalDateTime.now());
-        vagas.setUpdatedAt(LocalDateTime.now());
+        //vagas.setUpdatedAt(LocalDateTime.now());
         vagas.setCreatedBy(user.getId());
 
         Vagas salvaVaga = vagasRepository.save(vagas);

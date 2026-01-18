@@ -31,4 +31,10 @@ public class PatioController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(addPatio);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> finalizarPatio(@PathVariable Long id) {
+
+        patioService.finalizaPatio(id);
+        return ResponseEntity.noContent().build(); // 204
+    }
 }

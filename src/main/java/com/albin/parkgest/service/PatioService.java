@@ -1,5 +1,6 @@
 package com.albin.parkgest.service;
 
+import com.albin.parkgest.dto.patio.PatioDeleteDTO;
 import com.albin.parkgest.dto.patio.PatioRegisterDTO;
 import com.albin.parkgest.dto.patio.PatioResponseDTO;
 import com.albin.parkgest.model.Patio;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,6 +53,7 @@ public class PatioService {
     }
 
     //tela de controle
+    @Transactional //Garante atomicidade (ou tudo salva, ou nada)
     public PatioResponseDTO adicionaPatio(PatioRegisterDTO dto){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
@@ -61,6 +64,11 @@ public class PatioService {
         Vagas vaga = vagasRepository.findById(dto.getVagaId())
                 .orElseThrow(() -> new RuntimeException("Vaga não encontrada"));
 
+        vaga.setAcao("ocupada");
+        vaga.setUpdatedBy(user.getId());
+        vaga.setUpdatedAt(LocalDateTime.now());
+        vagasRepository.save(vaga);
+
         Patio patio = new Patio();
         patio.setVaga(vaga);
         patio.setModeloCor(dto.getModeloCor());
@@ -69,11 +77,35 @@ public class PatioService {
         //patio.setCliente();
         patio.setHoraEntrada(LocalDateTime.now());
         //patio.setValorHora();
+        patio.setCreatedBy(user.getId());
 
         Patio salvaPatio = patioRepository.save(patio);
 
 
         return new PatioResponseDTO(salvaPatio.getId(), salvaPatio.getModeloCor(), salvaPatio.getPlaca(), salvaPatio.getTipo(), salvaPatio.getHoraEntrada(), salvaPatio.getVaga().getVaga() );
     }
+
+    @Transactional
+    public void finalizaPatio(Long patioId) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        Patio patio = patioRepository.findById(patioId)
+                .orElseThrow(() -> new RuntimeException("Patio não encontrado"));
+
+        Vagas vaga = patio.getVaga();
+
+        vaga.setAcao("livre");
+        vaga.setUpdatedBy(user.getId());
+        vaga.setUpdatedAt(LocalDateTime.now());
+        vagasRepository.save(vaga);
+
+        patioRepository.delete(patio);
+    }
+
 
 }
