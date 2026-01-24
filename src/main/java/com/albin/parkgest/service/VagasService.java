@@ -2,6 +2,7 @@ package com.albin.parkgest.service;
 
 import com.albin.parkgest.dto.vagas.VagasRegisterDTO;
 import com.albin.parkgest.dto.vagas.VagasResponseDTO;
+import com.albin.parkgest.model.Patio;
 import com.albin.parkgest.model.User;
 import com.albin.parkgest.model.Vagas;
 import com.albin.parkgest.repository.PatioRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,7 +29,7 @@ public class VagasService {
     @Autowired
     private UserRepository userRepository;
 
-    //tela de vagas (popup cadastro)
+    //tela de vagas (popup cadastro de vaga)
     public VagasResponseDTO cadastraVaga(VagasRegisterDTO dto){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
@@ -49,10 +51,10 @@ public class VagasService {
 
         Vagas salvaVaga = vagasRepository.save(vagas);
 
-        return new VagasResponseDTO(salvaVaga.getId(), salvaVaga.getTipo(), salvaVaga.getTipo());
+        return new VagasResponseDTO(salvaVaga.getId(), salvaVaga.getTipo(), salvaVaga.getTipo(), salvaVaga.getAcao());
     }
 
-    //retorno de vagas na tela de controle
+    //retorno de vagas na tela de controle (sem veiculos estacionados)
     public List<VagasResponseDTO> vagasRestantes() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -67,11 +69,13 @@ public class VagasService {
                 .map(p -> new VagasResponseDTO(
                         p.getId(),
                         p.getVaga(),
-                        p.getTipo()
+                        p.getTipo(),
+                        p.getAcao()
                 ))
                 .toList();
     }
 
+    //retorna todas as vagas
     public List<VagasResponseDTO> vagas(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
@@ -85,8 +89,28 @@ public class VagasService {
                 .map(p -> new VagasResponseDTO(
                         p.getId(),
                         p.getVaga(),
-                        p.getTipo()
+                        p.getTipo(),
+                        p.getAcao()
                 ))
                 .toList();
+    }
+
+    //deleta vaga
+    @Transactional
+    public void deletaVaga(Long vagaId){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        Vagas vaga = vagasRepository.findById(vagaId)
+                .orElseThrow(() -> new RuntimeException("Vaga não encontrada"));
+
+        if (patioRepository.existsByVaga_Id(vagaId)) {
+            throw new RuntimeException("A vaga está vinculada a um registro no pátio e não pode ser removida");
+        }
+
+        vagasRepository.delete(vaga);
     }
 }

@@ -38,5 +38,11 @@ public class VagasController {
         return ResponseEntity.ok(vagas);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletaVaga(@PathVariable Long id){
+        vagasService.deletaVaga(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
