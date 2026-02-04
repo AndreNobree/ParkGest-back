@@ -19,7 +19,6 @@ public class Clientes {
     private String nome;
 
     private String telefone;
-    private String email;
 
     @Column(name = "created_by")
     private Long createBy;

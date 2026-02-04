@@ -12,6 +12,4 @@ public class ClientesRegisterDTO {
 
     private String telefone;
 
-    private String email;
-
 }
