@@ -36,4 +36,12 @@ public class ClientesController {
         clientesService.deletaCliente(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ClientesResponseDTO> editaCliente(@PathVariable Long id, @Valid @RequestBody ClientesRegisterDTO dto) {
+        ClientesResponseDTO atualizado = clientesService.editaCliente(id, dto);
+        return ResponseEntity.ok(atualizado);
+    }
+
+
 }

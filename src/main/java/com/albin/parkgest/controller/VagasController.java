@@ -43,6 +43,10 @@ public class VagasController {
         vagasService.deletaVaga(id);
         return ResponseEntity.noContent().build();
     }
-
+    @PutMapping("/{id}")
+    public ResponseEntity<VagasResponseDTO> editaVaga(@PathVariable Long id, @Valid @RequestBody VagasRegisterDTO dto) {
+        VagasResponseDTO atualizado = vagasService.editaVaga(id, dto);
+        return ResponseEntity.ok(atualizado);
+    }
 
 }

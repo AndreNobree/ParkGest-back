@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -78,4 +79,32 @@ public class ClientesService {
 
          clientesRepository.delete(clientes);
      }
+
+    @Transactional
+    public ClientesResponseDTO editaCliente(Long id, ClientesRegisterDTO dto) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        Clientes cliente = clientesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        cliente.setNome(dto.getNome());
+        cliente.setTelefone(dto.getTelefone());
+        cliente.setUpdateAt(LocalDateTime.now());
+        cliente.setUpdateBy(user.getId());
+
+        Clientes salvo = clientesRepository.save(cliente);
+
+        return new ClientesResponseDTO(
+                salvo.getId(),
+                salvo.getNome(),
+                salvo.getTelefone()
+        );
+    }
+
+
+
 }

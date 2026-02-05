@@ -2,7 +2,6 @@ package com.albin.parkgest.service;
 
 import com.albin.parkgest.dto.vagas.VagasRegisterDTO;
 import com.albin.parkgest.dto.vagas.VagasResponseDTO;
-import com.albin.parkgest.model.Patio;
 import com.albin.parkgest.model.User;
 import com.albin.parkgest.model.Vagas;
 import com.albin.parkgest.repository.PatioRepository;
@@ -113,4 +112,30 @@ public class VagasService {
 
         vagasRepository.delete(vaga);
     }
+    @Transactional
+    public VagasResponseDTO editaVaga(Long id, VagasRegisterDTO dto) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        Vagas vagas = vagasRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Vaga não encontrada"));
+
+        vagas.setVaga(dto.getVaga());
+        vagas.setTipo(dto.getTipo());
+        vagas.setUpdatedAt(LocalDateTime.now());
+        vagas.setUpdatedBy(user.getId());
+
+        Vagas salvo = vagasRepository.save(vagas);
+
+        return new VagasResponseDTO(
+                salvo.getId(),
+                salvo.getVaga(),
+                salvo.getTipo(),
+                salvo.getAcao()
+        );
+    }
+
 }
