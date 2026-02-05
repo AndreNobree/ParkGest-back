@@ -16,9 +16,8 @@ public class ValorHora {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "vagas_id", nullable = false)
-    private Vagas vaga;
+    @Column(nullable = false)
+    private String tipoVeiculos;
 
     @Column(name = "valor_hora", nullable = false)
     private BigDecimal valorHora;

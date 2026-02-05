@@ -7,11 +7,12 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class ValorHoraResponseDTO {
-    private Long vagaId;
-
     private BigDecimal valorHora;
 
-    public ValorHoraResponseDTO(BigDecimal valorHora){
+    private String tipoVeiculo;
+
+    public ValorHoraResponseDTO(BigDecimal valorHora, String tipoVeiculo){
         this.valorHora = valorHora;
+        this.tipoVeiculo = tipoVeiculo;
     }
 }

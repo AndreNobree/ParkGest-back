@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 @Setter
 public class ValorHoraRegisterDTO {
     @NotBlank
-    private Long vagaId;
+    private BigDecimal valorHora;
 
     @NotBlank
-    private BigDecimal valorHora;
+    private String tipoVeiculo;
 }
