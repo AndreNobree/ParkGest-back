@@ -4,4 +4,5 @@ import com.albin.parkgest.model.ValorHora;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ValoresHoraRepository extends JpaRepository<ValorHora, Long> {
+    boolean existsByTipoVeiculos(String tipoVeiculos);
 }

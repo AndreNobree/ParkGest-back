@@ -30,6 +30,10 @@ public class ValorHoraService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
+        if (valoresHoraRepository.existsByTipoVeiculos(dto.getTipoVeiculo())) {
+            throw new RuntimeException("Tipo veículo já cadastrado");
+        }
+
         ValorHora valorHora = new ValorHora();
         valorHora.setValorHora(dto.getValorHora());
         valorHora.setTipoVeiculos(dto.getTipoVeiculo());

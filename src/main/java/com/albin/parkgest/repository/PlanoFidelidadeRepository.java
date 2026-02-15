@@ -4,4 +4,5 @@ import com.albin.parkgest.model.PlanoFidelidade;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PlanoFidelidadeRepository extends JpaRepository<PlanoFidelidade, Long> {
+    boolean existsByCliente_Id(Long clienteId);
 }
