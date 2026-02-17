@@ -18,5 +18,4 @@ public class PlanoFidelidadeRegisterDTO {
     @NotBlank
     private String metodo;
 
-    private Integer quantidade;
 }

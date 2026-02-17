@@ -8,16 +8,18 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class PlanoFidelidadeResponseDTO {
+    private Long id;
     private BigDecimal valor;
 
     private String metodo;
 
-    private Integer quantidade;
+    private String cliente;
 
-    public PlanoFidelidadeResponseDTO(BigDecimal valor, String metodo, Integer quantidade){
+    public PlanoFidelidadeResponseDTO(Long id, BigDecimal valor, String metodo, String cliente){
+        this.id = id;
         this.valor = valor;
         this.metodo = metodo;
-        this.quantidade = quantidade;
+        this.cliente = cliente;
     }
 
 }

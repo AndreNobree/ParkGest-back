@@ -42,7 +42,7 @@ public class ValorHoraService {
 
         ValorHora salvaValorHora = valoresHoraRepository.save(valorHora);
 
-        return new ValorHoraResponseDTO(salvaValorHora.getValorHora(), salvaValorHora.getTipoVeiculos());
+        return new ValorHoraResponseDTO(salvaValorHora.getId(), salvaValorHora.getValorHora(), salvaValorHora.getTipoVeiculos());
     }
 
     public List<ValorHoraResponseDTO> retornaValoresHora(){
@@ -56,6 +56,7 @@ public class ValorHoraService {
 
         return valorHoraList.stream()
                 .map(p -> new ValorHoraResponseDTO(
+                        p.getId(),
                         p.getValorHora(),
                         p.getTipoVeiculos()
                 ))
@@ -80,7 +81,12 @@ public class ValorHoraService {
 
         ValorHora salvo = valoresHoraRepository.save(valoresHora);
 
+        System.out.println("ID: " + id);
+        System.out.println("Valor: " + dto.getValorHora());
+        System.out.println("Tipo: " + dto.getTipoVeiculo());
+
         return new ValorHoraResponseDTO(
+                salvo.getId(),
                 salvo.getValorHora(),
                 salvo.getTipoVeiculos()
         );

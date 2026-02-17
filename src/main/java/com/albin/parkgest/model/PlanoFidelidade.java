@@ -27,9 +27,6 @@ public class PlanoFidelidade {
     @Column(nullable = false)
     private String metodo;
 
-    @Column(nullable = false)
-    private Integer quantidade;
-
     @Column(name = "created_by")
     private Long createBy;
 
