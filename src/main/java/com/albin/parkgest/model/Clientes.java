@@ -5,15 +5,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "clientes")
 @Getter
 @Setter
 public class Clientes {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<PlanoFidelidade> planos;
 
     @Column(nullable = false)
     private String nome;

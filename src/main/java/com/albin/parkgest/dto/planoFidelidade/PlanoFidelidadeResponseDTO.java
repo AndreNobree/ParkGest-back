@@ -15,11 +15,14 @@ public class PlanoFidelidadeResponseDTO {
 
     private String cliente;
 
-    public PlanoFidelidadeResponseDTO(Long id, BigDecimal valor, String metodo, String cliente){
+    private String telefone;
+
+    public PlanoFidelidadeResponseDTO(Long id, BigDecimal valor, String metodo, String cliente, String telefone){
         this.id = id;
         this.valor = valor;
         this.metodo = metodo;
         this.cliente = cliente;
+        this.telefone = telefone;
     }
 
 }

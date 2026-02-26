@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/patio")
-@CrossOrigin(origins = "http://localhost:3000")
 public class PatioController {
     @Autowired
     private PatioService patioService;

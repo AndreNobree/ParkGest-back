@@ -42,7 +42,8 @@ public class PlanoFidelidadeService {
                         p.getId(),
                         p.getValor(),
                         p.getMetodo(),
-                        p.getCliente().getNome()
+                        p.getCliente().getNome(),
+                        p.getCliente().getTelefone()
                 ))
                 .toList();
     }
@@ -71,7 +72,8 @@ public class PlanoFidelidadeService {
                 salvaPlano.getId(),
                 salvaPlano.getValor(),
                 salvaPlano.getMetodo(),
-                salvaPlano.getCliente().getNome()
+                salvaPlano.getCliente().getNome(),
+                salvaPlano.getCliente().getTelefone()
         );
     }
 }

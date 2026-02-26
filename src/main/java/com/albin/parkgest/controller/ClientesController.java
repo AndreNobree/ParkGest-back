@@ -1,5 +1,6 @@
 package com.albin.parkgest.controller;
 
+import com.albin.parkgest.dto.clientes.ClientesPlanoFidelidadeDTO;
 import com.albin.parkgest.dto.clientes.ClientesRegisterDTO;
 import com.albin.parkgest.dto.clientes.ClientesResponseDTO;
 import com.albin.parkgest.service.ClientesService;
@@ -43,5 +44,9 @@ public class ClientesController {
         return ResponseEntity.ok(atualizado);
     }
 
-
+    @GetMapping("/plano")
+    public ResponseEntity<List<ClientesPlanoFidelidadeDTO>> listarClientesComPlano() {
+        List<ClientesPlanoFidelidadeDTO> lista = clientesService.listarClientesComPlano();
+        return ResponseEntity.ok(lista);
+    }
 }

@@ -1,5 +1,6 @@
 package com.albin.parkgest.service;
 
+import com.albin.parkgest.dto.clientes.ClientesPlanoFidelidadeDTO;
 import com.albin.parkgest.dto.clientes.ClientesRegisterDTO;
 import com.albin.parkgest.dto.clientes.ClientesResponseDTO;
 import com.albin.parkgest.model.Clientes;
@@ -23,6 +24,11 @@ public class ClientesService {
 
     @Autowired
     private ClientesRepository clientesRepository;
+
+    public List<ClientesPlanoFidelidadeDTO> listarClientesComPlano() {
+        return clientesRepository.listarClientesComPlano();
+    }
+
 
     public List<ClientesResponseDTO> clientes(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
