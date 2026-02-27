@@ -3,6 +3,7 @@ package com.albin.parkgest.service;
 import com.albin.parkgest.dto.user.UserLoginDTO;
 import com.albin.parkgest.dto.user.UserRegisterDTO;
 import com.albin.parkgest.dto.user.UserResponseDTO;
+import com.albin.parkgest.exception.BusinessException;
 import com.albin.parkgest.model.User;
 import com.albin.parkgest.repository.UserRepository;
 import com.albin.parkgest.security.JwtService;
@@ -31,10 +32,10 @@ public class UserService {
 
     public UserResponseDTO login(UserLoginDTO dto){
         User user = userRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         if (!passwordEncoder.matches(dto.getPassword(), user.getPasswordHash())) {
-            throw new RuntimeException("Senha inválida");
+            throw new BusinessException("Senha inválida");
         }
 
         String token = jwtService.generateToken(user.getEmail());
@@ -45,7 +46,7 @@ public class UserService {
     public UserResponseDTO registerDefault(UserRegisterDTO dto) {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new RuntimeException("Email já está em uso");
+            throw new BusinessException("Email já está em uso");
         }
 
         User user = new User();

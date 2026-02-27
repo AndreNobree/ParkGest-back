@@ -2,6 +2,7 @@ package com.albin.parkgest.service;
 
 import com.albin.parkgest.dto.valorhora.ValorHoraRegisterDTO;
 import com.albin.parkgest.dto.valorhora.ValorHoraResponseDTO;
+import com.albin.parkgest.exception.BusinessException;
 import com.albin.parkgest.model.User;
 import com.albin.parkgest.model.ValorHora;
 import com.albin.parkgest.repository.UserRepository;
@@ -28,10 +29,10 @@ public class ValorHoraService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         if (valoresHoraRepository.existsByTipoVeiculos(dto.getTipoVeiculo())) {
-            throw new RuntimeException("Tipo veículo já cadastrado");
+            throw new BusinessException("Tipo veículo já cadastrado");
         }
 
         ValorHora valorHora = new ValorHora();
@@ -50,7 +51,7 @@ public class ValorHoraService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         List<ValorHora> valorHoraList = valoresHoraRepository.findAll();
 
@@ -69,10 +70,10 @@ public class ValorHoraService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         ValorHora valoresHora = valoresHoraRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Registro não encontrado"));
+                .orElseThrow(() -> new BusinessException("Registro não encontrado"));
 
         valoresHora.setValorHora(dto.getValorHora());
         valoresHora.setTipoVeiculos(dto.getTipoVeiculo());

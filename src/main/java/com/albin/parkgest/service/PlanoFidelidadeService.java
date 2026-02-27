@@ -2,6 +2,7 @@ package com.albin.parkgest.service;
 
 import com.albin.parkgest.dto.planoFidelidade.PlanoFidelidadeRegisterDTO;
 import com.albin.parkgest.dto.planoFidelidade.PlanoFidelidadeResponseDTO;
+import com.albin.parkgest.exception.BusinessException;
 import com.albin.parkgest.model.PlanoFidelidade;
 import com.albin.parkgest.model.User;
 import com.albin.parkgest.model.Clientes;
@@ -33,7 +34,7 @@ public class PlanoFidelidadeService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         List<PlanoFidelidade> planoFidelidadeList = planoFidelidadeRepository.findAll();
 
@@ -54,10 +55,10 @@ public class PlanoFidelidadeService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         Clientes clientes = clientesRepository.findById(dto.getClienteId())
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new BusinessException("Cliente não encontrado"));
 
         PlanoFidelidade planoFidelidade = new PlanoFidelidade();
         planoFidelidade.setCliente(clientes);

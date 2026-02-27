@@ -2,6 +2,7 @@ package com.albin.parkgest.service;
 
 import com.albin.parkgest.dto.patio.PatioRegisterDTO;
 import com.albin.parkgest.dto.patio.PatioResponseDTO;
+import com.albin.parkgest.exception.BusinessException;
 import com.albin.parkgest.model.Patio;
 import com.albin.parkgest.model.User;
 import com.albin.parkgest.model.Vagas;
@@ -34,7 +35,7 @@ public class PatioService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         List<Patio> patio = patioRepository.findAll();
 
@@ -58,10 +59,10 @@ public class PatioService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         Vagas vaga = vagasRepository.findById(dto.getVagaId())
-                .orElseThrow(() -> new RuntimeException("Vaga não encontrada"));
+                .orElseThrow(() -> new BusinessException("Vaga não encontrada"));
 
         vaga.setAcao("ocupada");
         vaga.setUpdatedBy(user.getId());
@@ -91,10 +92,10 @@ public class PatioService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         Patio patio = patioRepository.findById(patioId)
-                .orElseThrow(() -> new RuntimeException("Patio não encontrado"));
+                .orElseThrow(() -> new BusinessException("Patio não encontrado"));
 
         Vagas vaga = patio.getVaga();
 

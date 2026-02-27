@@ -3,6 +3,7 @@ package com.albin.parkgest.service;
 import com.albin.parkgest.dto.clientes.ClientesPlanoFidelidadeDTO;
 import com.albin.parkgest.dto.clientes.ClientesRegisterDTO;
 import com.albin.parkgest.dto.clientes.ClientesResponseDTO;
+import com.albin.parkgest.exception.BusinessException;
 import com.albin.parkgest.model.Clientes;
 import com.albin.parkgest.model.User;
 import com.albin.parkgest.repository.ClientesRepository;
@@ -35,7 +36,7 @@ public class ClientesService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         List<Clientes> clientesList = clientesRepository.findAll();
 
@@ -52,13 +53,13 @@ public class ClientesService {
          String email = auth.getName();
 
          User user = userRepository.findByEmail(email)
-                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                 .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
          if(clientesRepository.existsByNome(dto.getNome())){
-             throw new RuntimeException("Nome do cliente já foi cadastrado");
+             throw new BusinessException("Nome do cliente já foi cadastrado");
          }
          if(clientesRepository.existsByTelefone(dto.getTelefone())){
-             throw new RuntimeException("Telefone do cliente já foi cadastrado");
+             throw new BusinessException("Telefone do cliente já foi cadastrado");
          }
 
          Clientes clientes = new Clientes();
@@ -78,10 +79,10 @@ public class ClientesService {
          String email = auth.getName();
 
          User user = userRepository.findByEmail(email)
-                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                 .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
          Clientes clientes = clientesRepository.findById(clienteID)
-                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                 .orElseThrow(() -> new BusinessException("Cliente não encontrado"));
 
          clientesRepository.delete(clientes);
      }
@@ -92,10 +93,10 @@ public class ClientesService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         Clientes cliente = clientesRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new BusinessException("Cliente não encontrado"));
 
         cliente.setNome(dto.getNome());
         cliente.setTelefone(dto.getTelefone());

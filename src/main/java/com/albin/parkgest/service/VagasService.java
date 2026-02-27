@@ -2,6 +2,7 @@ package com.albin.parkgest.service;
 
 import com.albin.parkgest.dto.vagas.VagasRegisterDTO;
 import com.albin.parkgest.dto.vagas.VagasResponseDTO;
+import com.albin.parkgest.exception.BusinessException;
 import com.albin.parkgest.model.User;
 import com.albin.parkgest.model.Vagas;
 import com.albin.parkgest.repository.PatioRepository;
@@ -34,10 +35,10 @@ public class VagasService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         if(vagasRepository.existsByVaga(dto.getVaga())){
-            throw new RuntimeException("O nome da vaga já existe");
+            throw new BusinessException("O nome da vaga já existe");
         }
 
         Vagas vagas = new Vagas();
@@ -60,7 +61,7 @@ public class VagasService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         List<Vagas> vagasLivres = vagasRepository.findByAcao("livre");
 
@@ -80,7 +81,7 @@ public class VagasService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         List<Vagas> vagasList = vagasRepository.findAll();
 
@@ -101,13 +102,13 @@ public class VagasService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         Vagas vaga = vagasRepository.findById(vagaId)
-                .orElseThrow(() -> new RuntimeException("Vaga não encontrada"));
+                .orElseThrow(() -> new BusinessException("Vaga não encontrada"));
 
         if (patioRepository.existsByVaga_Id(vagaId)) {
-            throw new RuntimeException("A vaga está vinculada a um registro no pátio e não pode ser removida");
+            throw new BusinessException("A vaga está vinculada a um registro no pátio e não pode ser removida");
         }
 
         vagasRepository.delete(vaga);
@@ -118,10 +119,10 @@ public class VagasService {
         String email = auth.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         Vagas vagas = vagasRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Vaga não encontrada"));
+                .orElseThrow(() -> new BusinessException("Vaga não encontrada"));
 
         vagas.setVaga(dto.getVaga());
         vagas.setTipo(dto.getTipo());
